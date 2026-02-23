@@ -23,4 +23,4 @@ jobs:
 
             - run: npm run lint
 
-            - run: npm run test (Run Jest)
+            - run: npm run test
