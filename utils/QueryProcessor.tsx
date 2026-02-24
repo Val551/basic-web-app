@@ -43,6 +43,11 @@ export default function QueryProcessor(query: string): string {
     return nums.filter(isPrime).join(", ");
   }
 
+  const powerMatch = query.match(/What is (\d+) to the power of (\d+)\?/);
+  if (powerMatch) {
+    return String(Math.pow(parseInt(powerMatch[1]), parseInt(powerMatch[2])));
+  }
+
   const divideMatch = query.match(/What is ([\d]+(?: divided by [\d]+)+)\?/);
   if (divideMatch) {
     const nums = divideMatch[1].split(" divided by ").map((n) => parseInt(n.trim()));
