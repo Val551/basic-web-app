@@ -52,9 +52,10 @@ export default function QueryProcessor(query: string): string {
     return String(parseInt(subtractMatch[1]) - parseInt(subtractMatch[2]));
   }
 
-  const addMatch = query.match(/What is (\d+) plus (\d+)\?/);
+  const addMatch = query.match(/What is ([\d]+(?: plus [\d]+)+)\?/);
   if (addMatch) {
-    return String(parseInt(addMatch[1]) + parseInt(addMatch[2]));
+    const nums = addMatch[1].split(" plus ").map((n) => parseInt(n.trim()));
+    return String(nums.reduce((a, b) => a + b, 0));
   }
 
   const largestMatch = query.match(/Which of the following numbers is the largest: ([\d, ]+)\?/);
