@@ -45,7 +45,11 @@ export default function QueryProcessor(query: string): string {
 
   const powerMatch = query.match(/What is (\d+) to the power of (\d+)\?/);
   if (powerMatch) {
-    return String(Math.pow(parseInt(powerMatch[1]), parseInt(powerMatch[2])));
+    let base = BigInt(powerMatch[1]);
+    let exp = parseInt(powerMatch[2]);
+    let result = BigInt(1);
+    for (let i = 0; i < exp; i++) result *= base;
+    return String(result);
   }
 
   const arithmeticMatch = query.match(/What is (.+)\?/);
