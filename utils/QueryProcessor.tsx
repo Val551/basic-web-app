@@ -81,6 +81,15 @@ export default function QueryProcessor(query: string): string {
     return String(result);
   }
 
+  const anagramMatch = query.match(/Which of the following is an anagram of (\w+): (.+)\?/);
+  if (anagramMatch) {
+    const sorted = (s: string) => s.toLowerCase().split("").sort().join("");
+    const target = sorted(anagramMatch[1]);
+    const words = anagramMatch[2].split(",").map((w) => w.trim());
+    const result = words.find((w) => sorted(w) === target);
+    return result || "";
+  }
+
   const largestMatch = query.match(/Which of the following numbers is the largest: ([\d, ]+)\?/);
   if (largestMatch) {
     const nums = largestMatch[1].split(",").map((n) => parseInt(n.trim()));
