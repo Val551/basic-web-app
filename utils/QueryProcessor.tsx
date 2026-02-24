@@ -29,6 +29,11 @@ export default function QueryProcessor(query: string): string {
     return result !== undefined ? String(result) : "";
   }
 
+  const subtractMatch = query.match(/What is (\d+) minus (\d+)\?/);
+  if (subtractMatch) {
+    return String(parseInt(subtractMatch[1]) - parseInt(subtractMatch[2]));
+  }
+
   const addMatch = query.match(/What is (\d+) plus (\d+)\?/);
   if (addMatch) {
     return String(parseInt(addMatch[1]) + parseInt(addMatch[2]));
