@@ -29,6 +29,11 @@ export default function QueryProcessor(query: string): string {
     return result !== undefined ? String(result) : "";
   }
 
+  const divideMatch = query.match(/What is (\d+) divided by (\d+)\?/);
+  if (divideMatch) {
+    return String(parseInt(divideMatch[1]) / parseInt(divideMatch[2]));
+  }
+
   const subtractMatch = query.match(/What is (\d+) minus (\d+)\?/);
   if (subtractMatch) {
     return String(parseInt(subtractMatch[1]) - parseInt(subtractMatch[2]));
