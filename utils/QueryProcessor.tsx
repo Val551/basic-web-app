@@ -13,9 +13,10 @@ export default function QueryProcessor(query: string): string {
   if (query.toLowerCase().includes("andrew id") || query.toLowerCase().includes("andrew id?")) {
     return "fabiocam";
   }
-  const multiplyMatch = query.match(/What is (\d+) multiplied by (\d+)\?/);
+  const multiplyMatch = query.match(/What is ([\d]+(?: multiplied by [\d]+)+)\?/);
   if (multiplyMatch) {
-    return String(parseInt(multiplyMatch[1]) * parseInt(multiplyMatch[2]));
+    const nums = multiplyMatch[1].split(" multiplied by ").map((n) => parseInt(n.trim()));
+    return String(nums.reduce((a, b) => a * b, 1));
   }
 
   const squareAndCubeMatch = query.match(/Which of the following numbers is both a square and a cube: ([\d, ]+)\?/);
@@ -42,14 +43,16 @@ export default function QueryProcessor(query: string): string {
     return nums.filter(isPrime).join(", ");
   }
 
-  const divideMatch = query.match(/What is (\d+) divided by (\d+)\?/);
+  const divideMatch = query.match(/What is ([\d]+(?: divided by [\d]+)+)\?/);
   if (divideMatch) {
-    return String(parseInt(divideMatch[1]) / parseInt(divideMatch[2]));
+    const nums = divideMatch[1].split(" divided by ").map((n) => parseInt(n.trim()));
+    return String(nums.reduce((a, b) => a / b));
   }
 
-  const subtractMatch = query.match(/What is (\d+) minus (\d+)\?/);
+  const subtractMatch = query.match(/What is ([\d]+(?: minus [\d]+)+)\?/);
   if (subtractMatch) {
-    return String(parseInt(subtractMatch[1]) - parseInt(subtractMatch[2]));
+    const nums = subtractMatch[1].split(" minus ").map((n) => parseInt(n.trim()));
+    return String(nums.reduce((a, b) => a - b));
   }
 
   const addMatch = query.match(/What is ([\d]+(?: plus [\d]+)+)\?/);
