@@ -13,6 +13,22 @@ export default function QueryProcessor(query: string): string {
   if (query.toLowerCase().includes("andrew id") || query.toLowerCase().includes("andrew id?")) {
     return "fabiocam";
   }
+  const multiplyMatch = query.match(/What is (\d+) multiplied by (\d+)\?/);
+  if (multiplyMatch) {
+    return String(parseInt(multiplyMatch[1]) * parseInt(multiplyMatch[2]));
+  }
+
+  const squareAndCubeMatch = query.match(/Which of the following numbers is both a square and a cube: ([\d, ]+)\?/);
+  if (squareAndCubeMatch) {
+    const nums = squareAndCubeMatch[1].split(",").map((n) => parseInt(n.trim()));
+    const result = nums.find((n) => {
+      const sqrt = Math.round(Math.sqrt(n));
+      const cbrt = Math.round(Math.cbrt(n));
+      return sqrt * sqrt === n && cbrt * cbrt * cbrt === n;
+    });
+    return result !== undefined ? String(result) : "";
+  }
+
   const addMatch = query.match(/What is (\d+) plus (\d+)\?/);
   if (addMatch) {
     return String(parseInt(addMatch[1]) + parseInt(addMatch[2]));
