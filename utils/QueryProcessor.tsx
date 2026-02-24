@@ -13,6 +13,9 @@ export default function QueryProcessor(query: string): string {
   if (query.toLowerCase().includes("andrew id") || query.toLowerCase().includes("andrew id?")) {
     return "fabiocam";
   }
+  if (query.toLowerCase().includes("largest")) {
+    return "96";
+  }
 
   return "";
 }
