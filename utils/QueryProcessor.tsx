@@ -8,10 +8,34 @@ export default function QueryProcessor(query: string): string {
   }
 
   if (query.toLowerCase().includes("name")) {
-    return "Rohan";
+    return "fabio";
   }
   if (query.toLowerCase().includes("andrew id") || query.toLowerCase().includes("andrew id?")) {
     return "fabiocam";
+  }
+  if (query.toLowerCase().includes("name")) {
+    return "Rohan";
+  }
+  if (query.toLowerCase().includes("name")) {
+    return "Rohan";
+  }
+  if (query.toLowerCase().includes("name")) {
+    return "Rohan";
+  }
+  if (query.toLowerCase().includes("name")) {
+    return "Rohan";
+  }
+  if (query.toLowerCase().includes("name")) {
+    return "Rohan";
+  }
+  if (query.toLowerCase().includes("name")) {
+    return "Rohan";
+  }
+  if (query.toLowerCase().includes("name")) {
+    return "Rohan";
+  }
+  if (query.toLowerCase().includes("name")) {
+    return "Rohan";
   }
 
   return "";
