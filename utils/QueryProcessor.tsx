@@ -48,22 +48,33 @@ export default function QueryProcessor(query: string): string {
     return String(Math.pow(parseInt(powerMatch[1]), parseInt(powerMatch[2])));
   }
 
-  const divideMatch = query.match(/What is ([\d]+(?: divided by [\d]+)+)\?/);
-  if (divideMatch) {
-    const nums = divideMatch[1].split(" divided by ").map((n) => parseInt(n.trim()));
-    return String(nums.reduce((a, b) => a / b));
-  }
-
-  const subtractMatch = query.match(/What is ([\d]+(?: minus [\d]+)+)\?/);
-  if (subtractMatch) {
-    const nums = subtractMatch[1].split(" minus ").map((n) => parseInt(n.trim()));
-    return String(nums.reduce((a, b) => a - b));
-  }
-
-  const addMatch = query.match(/What is ([\d]+(?: plus [\d]+)+)\?/);
-  if (addMatch) {
-    const nums = addMatch[1].split(" plus ").map((n) => parseInt(n.trim()));
-    return String(nums.reduce((a, b) => a + b, 0));
+  const arithmeticMatch = query.match(/What is (.+)\?/);
+  if (arithmeticMatch && /\b(plus|minus|multiplied by|divided by)\b/.test(arithmeticMatch[1])) {
+    const tokens = arithmeticMatch[1].match(/(\d+|multiplied by|divided by|plus|minus)/g) || [];
+    const nums: number[] = [];
+    const ops: string[] = [];
+    for (const token of tokens) {
+      if (/^\d+$/.test(token)) nums.push(parseInt(token));
+      else ops.push(token);
+    }
+    // First pass: multiplication and division
+    let i = 0;
+    while (i < ops.length) {
+      if (ops[i] === "multiplied by" || ops[i] === "divided by") {
+        const result = ops[i] === "multiplied by" ? nums[i] * nums[i + 1] : nums[i] / nums[i + 1];
+        nums.splice(i, 2, result);
+        ops.splice(i, 1);
+      } else {
+        i++;
+      }
+    }
+    // Second pass: addition and subtraction
+    let result = nums[0];
+    for (let j = 0; j < ops.length; j++) {
+      if (ops[j] === "plus") result += nums[j + 1];
+      else if (ops[j] === "minus") result -= nums[j + 1];
+    }
+    return String(result);
   }
 
   const largestMatch = query.match(/Which of the following numbers is the largest: ([\d, ]+)\?/);
