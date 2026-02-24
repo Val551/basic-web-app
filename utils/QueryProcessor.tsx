@@ -29,6 +29,19 @@ export default function QueryProcessor(query: string): string {
     return result !== undefined ? String(result) : "";
   }
 
+  const primesMatch = query.match(/Which of the following numbers are primes: ([\d, ]+)\?/);
+  if (primesMatch) {
+    const nums = primesMatch[1].split(",").map((n) => parseInt(n.trim()));
+    const isPrime = (n: number) => {
+      if (n < 2) return false;
+      for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (n % i === 0) return false;
+      }
+      return true;
+    };
+    return nums.filter(isPrime).join(", ");
+  }
+
   const divideMatch = query.match(/What is (\d+) divided by (\d+)\?/);
   if (divideMatch) {
     return String(parseInt(divideMatch[1]) / parseInt(divideMatch[2]));
